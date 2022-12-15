@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 static class Constants
 {
@@ -42,24 +43,24 @@ static class PublicFunction
         string ret = null;
 
         if (shape == 0)
-            ret = "♣ ";
+            ret = "Club";
         else if (shape == 1)
-            ret = "♥ ";
+            ret = "Heart";
         else if (shape == 2)
-            ret = "♦ ";
+            ret = "Diamond";
         else if (shape == 3)
-            ret = "♠ ";
+            ret = "Spade";
 
-        if (number >= 2 && number <= 10)
-            ret += number.ToString();
-        else if (number == 1)
-            ret += "Ace";
+        if (number >= 1 && number <= 9)
+            ret += "0" + number.ToString();
+        else if (number == 10)
+            ret += "10";
         else if (number == 11)
-            ret += "Jack";
+            ret += "11";
         else if (number == 12)
-            ret += "Queen";
+            ret += "12";
         else if (number == 13)
-            ret += "King";
+            ret += "13";
         return (ret);
     }
 
@@ -110,8 +111,9 @@ public class SingleLaneGame : MonoBehaviour
         {
             GameObject temp = Instantiate(card, canvas.transform);
             temp.transform.localPosition = new Vector3((float)i / 5, (float)i / 5, 0);
-            temp.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = PublicFunction.GetCardName(cards[i]);
+            //temp.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = PublicFunction.GetCardName(cards[i]);
             temp.name = PublicFunction.GetCardName(cards[i]);
+            temp.GetComponent<Image>().sprite = Resources.Load("Sprite/PlayingCards/BackColor_Black", typeof(Sprite)) as Sprite;
         }
     }
 }

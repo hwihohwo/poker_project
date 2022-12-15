@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Common;
 using UnityEngine;
+using UnityEngine.UI;
 
-    public class SingleLaneElement
+public class SingleLaneElement
     {
         public string selectedCard;
 
@@ -14,14 +16,17 @@ using UnityEngine;
 
             for (int i = current_card_count - 1; i > current_card_count - 4; i--)
             {
-                GameObject temp = GameObject.Find(PublicFunction.GetCardName(SingleLaneGame.cards[i]));
+                GameObject temp;
+                temp = GameObject.Find(PublicFunction.GetCardName(SingleLaneGame.cards[i]));
                 if (temp != null)
                 {
+                    Image image = temp.GetComponent<Image>();
                     player_hand_cards.Add(SingleLaneGame.cards[i]);
                     SingleLaneGame.cards.RemoveAt(i);
                     position_x += 150;
                     position.x = position_x;
                     temp.transform.localPosition = position;
+                    image.sprite = Resources.Load("Sprite/PlayingCards/" + temp.name.ToString(), typeof(Sprite)) as Sprite;
                     Debug.Log(temp.name + " moved to " + position.ToString());
                 }
                 else

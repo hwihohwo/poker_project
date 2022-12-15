@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SingleLanePlayer : MonoBehaviour
 {
@@ -22,13 +23,6 @@ public class SingleLanePlayer : MonoBehaviour
 
     }
 
-    //public void ClickCard()
-    //{
-    //    string selected_card_name = EventSystem.current.currentSelectedGameObject.name;
-    //    singleLaneElement.selectedCard = selected_card_name;
-    //    Debug.Log(selected_card_name + " Selected");
-    //}
-
     public void ClickConfirm()
     {
         GameObject temp1 = null;
@@ -38,6 +32,7 @@ public class SingleLanePlayer : MonoBehaviour
         if (player_hand_cards.Count < Constants.PLAYER_MAX_CARD_NUMBER)
         {
             temp2 = GameObject.Find(PublicFunction.GetCardName(SingleLaneGame.cards[SingleLaneGame.cards.Count - 1]));
+            Image image = temp2.GetComponent<Image>();
             if (temp2 != null)
             {
                 foreach (int card in player_hand_cards)
@@ -56,6 +51,7 @@ public class SingleLanePlayer : MonoBehaviour
                 position.x += 150;
                 temp2.transform.localPosition = position;
                 player_hand_cards.Add(SingleLaneGame.cards[SingleLaneGame.cards.Count - 1]);
+                image.sprite = Resources.Load("Sprite/PlayingCards/" + temp2.name.ToString(), typeof(Sprite)) as Sprite;
                 Debug.Log(temp2.name.ToString() + " moved to " + temp2.transform.localPosition);
                 SingleLaneGame.cards.RemoveAt(SingleLaneGame.cards.Count - 1);
             }
