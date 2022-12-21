@@ -2,14 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 static class Constants
 {
     public const int CARD_NUMBER = 52;
-    public const int PLAYER_MAX_CARD_NUMBER = 5;
+    public const int PLAYER_MAX_CARD_NUMBER = 7;
     public const int STARTING_CARD_NUMBER = 3;
+    public const string card_image_path = "Sprite/PlayingCards/";
     public enum score
     {
         RSF = 48000000,
@@ -79,19 +82,17 @@ public class SingleLaneGame : MonoBehaviour
     public GameObject card;
     public GameObject canvas;
     public SingleLanePlayer singleLanePlayer1;
-    public SingleLanePlayer singleLanePlayer2;
     public static List<int> cards = new List<int>(Constants.CARD_NUMBER + 2);
 
     void Start()
-    {
+    { 
         SetCard_(card, canvas);
         singleLanePlayer1.SetHand(cards);
-        singleLanePlayer2.SetHand(cards);
     }
 
     void Update()
     {
-        if (singleLanePlayer1.turn_over == true && singleLanePlayer2.turn_over == true)
+        if (singleLanePlayer1.turn_over == true)
             PublicFunction.OnApplicationQuit();
     }
     private void SetCard_(GameObject card, GameObject canvas)
@@ -111,9 +112,20 @@ public class SingleLaneGame : MonoBehaviour
         {
             GameObject temp = Instantiate(card, canvas.transform);
             temp.transform.localPosition = new Vector3((float)i / 5, (float)i / 5, 0);
-            //temp.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = PublicFunction.GetCardName(cards[i]);
             temp.name = PublicFunction.GetCardName(cards[i]);
-            temp.GetComponent<Image>().sprite = Resources.Load("Sprite/PlayingCards/BackColor_Black", typeof(Sprite)) as Sprite;
+            //temp.GetComponent<Button>().onClick.AddListener( delegate { ClickCard(); });
+            temp.GetComponent<Image>().sprite = Resources.Load(Constants.card_image_path + "BackColor_Black", typeof(Sprite)) as Sprite;
         }
     }
+
+    public void ClickCard()
+    {
+        Image image;
+        GameObject clickedcard;
+        clickedcard = EventSystem.current.currentSelectedGameObject;
+        image = clickedcard.GetComponent<Image>();
+        image.sprite = Resources.Load(Constants.card_image_path + "BackColor_Black", typeof(Sprite)) as Sprite;
+    }
+
+
 }
